@@ -1,26 +1,26 @@
 -module(problems).
 
-% P1
+% P1.1
 get_last([Head]) ->
     Head;
 get_last([_ | Tail]) ->
     get_last(Tail).
 
-% P2
+% P1.2
 
 get_secondlast([Elem | [_]]) ->
     Elem;
 get_secondlast([_ | Tail]) ->
     get_secondlast(Tail).
 
-% P3
+% P1.3
 
 get_nth(N, [Head | _]) when N == 0 ->
     Head;
 get_nth(N, [_ | Tail]) ->
     get_nth(N - 1, Tail).
 
-% P4
+% P1.4
 
 get_length(Sofar, []) ->
     Sofar;
@@ -29,7 +29,7 @@ get_length(Sofar, [_ | Tail]) ->
 get_length(List) ->
     get_length(0, List).
 
-% P5
+% P1.5
 
 get_reverse(Sofar, []) ->
     Sofar;
@@ -38,7 +38,7 @@ get_reverse(Sofar, [Head | Tail]) ->
 get_reverse(List) ->
     get_reverse([], List).
 
-% P6
+% P1.6
 
 take_to(_, Sofar, []) ->
     {get_reverse(Sofar), []};
@@ -87,7 +87,7 @@ is_palindrome(List) ->
 easier_is_palindrome(List) ->
     List == get_reverse(List).
 
-% P7
+% P1.7
 
 get_flat([]) ->
     [];
@@ -96,7 +96,7 @@ get_flat([ Head | Tail ]) when is_list(Head) ->
 get_flat([ Head | Tail ]) ->
     [Head | get_flat(Tail)].
 
-% P8, P9
+% P1.8, P1.9
 
 get_groups(List) ->
     get_groups(List, []).
@@ -120,13 +120,13 @@ compress(List) ->
     Groups = get_groups(List),
     map_list(fun hd/1, Groups).
 
-% P10
+% P1.10
 
 run_length_encode(List) ->
     Groups = get_groups(List),
     map_list(fun (X) -> {get_length(X), hd(X)} end, Groups).
 
-% P11
+% P1.11
 
 encode_tuple({Count, Element}) when Count == 1 ->
     Element;
@@ -137,7 +137,7 @@ modified_run_length_encode(List) ->
     Rle = run_length_encode(List),
     map_list(fun encode_tuple/1, Rle).
 
-% P12
+% P1.12
 
 get_repeated(0, _) ->
     [];
@@ -153,7 +153,7 @@ decode_rle(Rle) ->
     Decoded = map_list(fun decode_tuple/1, Rle),
     get_flat(Decoded).
 
-% P13
+% P1.13
 
 new_rle([], Current, Sofar) ->
     [encode_tuple({Sofar, Current})];
@@ -166,7 +166,7 @@ new_rle([]) ->
 new_rle([Head | Tail]) ->
     new_rle(Tail, Head, 1).
 
-% P14/P15
+% P1.14/P1.15
 
 dupli(List, Count) ->
     get_flat(map_list(fun (X) -> get_repeated(Count, X) end, List)).
@@ -174,7 +174,7 @@ dupli(List, Count) ->
 dupli(List) ->
     dupli(List, 2).
 
-% P16
+% P1.16
 
 drop_every(_, _, []) ->
     [];
@@ -185,7 +185,7 @@ drop_every(Count, N, [Head | Tail]) ->
 drop_every(N, List) ->
     drop_every(1, N, List).
 
-% P17
+% P1.17
 
 split_with_length(0, Stored, Rest) ->
     {get_reverse(Stored), Rest};
@@ -194,7 +194,7 @@ split_with_length(N, Stored, [Head | Tail]) ->
 split_with_length(N, List) ->
     split_with_length(N, [], List).
 
-% P18 - using 0-indexing, because 1-indexing is a sin
+% P1.18 - using 0-indexing, because 1-indexing is a sin
 % Not inclusive end index
 
 slice(List, Start, End) ->
@@ -202,25 +202,25 @@ slice(List, Start, End) ->
     {Result, _} = split_with_length(End - Start - 1, Keep),
     Result.
 
-% P19
+% P1.19
 
 rotate(List, N) ->
     {Head, Tail} = split_with_length(N, List),
     Tail ++ Head.
 
-% P20
+% P1.20
 
 remove_at(List, Index) ->
     {Head, Tail} = split_with_length(Index, List),
     Head ++ tl(Tail).
 
-% P21
+% P1.21
 
 insert_at(List, Index, Element) ->
     {Head, Tail} = split_with_length(Index, List),
     Head ++ [Element | Tail].
 
-% P22
+% P1.22
 
 integer_range(From, To, Acumulator) when From < To ->
     integer_range(From + 1, To, [From | Acumulator]);
@@ -229,7 +229,7 @@ integer_range(_, _, Acumulator) ->
 integer_range(From, To) ->
     integer_range(From, To, []).
 
-% P23
+% P1.23
 
 rnd_select_one(List) ->
     Index = random:uniform(get_length(List)) - 1,
@@ -243,18 +243,18 @@ rnd_select(List, N, A) ->
 rnd_select(List, N) ->
     rnd_select(List, N, []).
 
-% P24
+% P1.24
 
 lotto_draw(N, L) ->
     Range = integer_range(1, L),
     rnd_select(Range, N).
 
-% P25
+% P1.25
 
 rnd_permutation(List) ->
     rnd_select(List, get_length(List)).
 
-% P26
+% P1.26
 
 prepend(Element, List) ->
     [Element | List].
@@ -286,9 +286,9 @@ combinations(N, List) ->
     flatten(for_each(fun(Index, Element) ->
                              combine(Index, Element, List, N - 1) end, List)).
 
-% P27
+% P1.27
 
-% P28
+% P1.28
 
 merge_by([], Ys, _) ->
     Ys;
