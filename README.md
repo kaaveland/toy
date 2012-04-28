@@ -1,4 +1,4 @@
 toy
 ===
 
-Solution to toy problem using multiple programming languages
+Solution to toy problems using multiple programming languages
